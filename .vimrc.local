@@ -1,0 +1,95 @@
+" Basic Settings {{{
+    " disable mouse
+    " set mouse-=a
+
+    " 256 color
+    set t_Co=256
+"}}}
+
+" spf-13 Configurations {{{
+    " disable auto removing trailing whitespace
+    let g:spf13_keep_trailing_whitespace = 1
+
+    " disable indent guides
+    let g:indent_guides_enable_on_vim_startup = 0
+
+    " don't auto change dir
+    let g:spf13_no_autochdir=1
+"}}}
+
+" Functions {{{
+    " toggle absolute/relative line number {{{
+    function! NumberToggle()
+      if(&relativenumber == 1)
+        set number
+      else
+        set relativenumber
+      endif
+    endfunc
+    "}}}
+"}}}
+
+" Key Mappings{{{
+    " Normal Mode Key Mappings{{{
+    nnoremap <C-n> :call NumberToggle()<cr>
+
+    " map to open this file in split window
+    nnoremap <Leader>ev :split $MYVIMRC.local<CR>
+    nnoremap <Leader>sv :source $MYVIMRC.local<CR>
+
+    " map to open TODO in split window
+    nnoremap <Leader>et :split ~/Dropbox/Documents/TODO.txt<CR>
+
+    " map to surround a word with ""
+    nnoremap <Leader>" viw<Esc>a"<Esc>hbi"<Esc>lel
+    nnoremap <Leader>' viw<Esc>a'<Esc>hbi'<Esc>lel
+
+    " NERD Tree for all tab, and auto mirror
+    nnoremap <C-e> :NERDTreeTabsToggle<CR>:NERDTreeMirror<CR>
+    "}}}
+
+    " Insert Mode Key Mappings{{{
+    " disable the bad habit keys
+    inoremap <silent> jk <Esc>l
+    "}}}
+
+    " Mappings for FuzzyFind{{{
+    "}}}
+"}}}
+
+" Abbreviations {{{
+    iabbrev adn and
+    iabbrev waht what
+    iabbrev tehn then
+"}}}
+
+" Auto CMDS {{{
+"}}}
+
+" Banner Text {{{
+echo "                                             _.._                                              "
+echo "                                            (    )                                             "
+echo "                                        .--.\\   /                                             "
+echo "                                        ( )) \\_.-,                                            "
+echo "                                        _`\\  ( (( )                                           "
+echo "                                       ( ``|  |  |                                             "
+echo "                                        `|_|__|__|                                             "
+echo "                                        /_ __ _ __|                                            "
+echo "                                      .-L_7__7_7_7|                                            "
+echo "   _______                           (   ,----,  (`.                                           "
+echo "   \\ ::::;`.                         |  .\\ \\ / /.|  \\                                      "
+echo "   /    [|  \                        |  :-.-:-,-:|   `-------.                                 "
+echo "   \\    [|   `-.___________________.-'  |_:_Q_:_|`-._______)  `----------.._                  "
+echo "   /    [|         (       /   |        ::::::::: .------------------' (__) `.                 "
+echo "   \\    [|          `-----'    |                 /  .--.  .--. .--.  .--.    ;                "
+echo "   /_____;                     7----------------'  :    ;:    ;;   ;:    :  /                  "
+echo "   :::::::::-.               .'   S$S S$S S$S S$S   `--'  `--' `--'  `--' .'                   "
+echo "             ,)              |                            |::::::::|     (                     "
+echo "             0-------....._  |             _________      |        |      )                    "
+echo "             '             `.|           .:         :.    |        |    .'                     "
+echo "                             `-._        |           |    |________| .-'                       "
+echo "                                 `-..____|___________|_________...--'                          "
+echo "\n"
+echo "                        ¸¸♬·¯·♩¸¸♪·¯·♫¸¸Happy Coding¸¸♬·¯·♩¸¸♪·¯·♫¸¸                           "
+echo "\n"
+"}}}
