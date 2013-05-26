@@ -1,4 +1,5 @@
-let g:spf13_no_autochdir=1
+" don't auto change dir
+" let g:spf13_no_autochdir=1
 
 " use my own plugins
 let g:override_spf13_bundles=1

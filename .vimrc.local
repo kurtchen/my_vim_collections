@@ -1,6 +1,34 @@
+" Functions {{{
+    " toggle absolute/relative line number {{{
+    function! s:NumberToggle()
+      if(&relativenumber == 1)
+        set number
+      else
+        set relativenumber
+      endif
+    endfunc
+    "}}}
+
+    " init rtp for the custom plugins {{{
+    function! s:InitCustomPlugins()
+        if exists('g:my_vim_collections_dir')
+            let l:files = split(globpath(expand(g:my_vim_collections_dir),'*'), '\n')
+            for l:f in l:files
+                if isdirectory(l:f)
+                    let &runtimepath.=','.l:f
+                endif
+            endfor
+        endif
+    endfunc
+    "}}}
+"}}}
+
 " My Pluggins {{{
-    let &runtimepath.=','.escape(expand('%:p:h'), '\,').'/vim-fuzzyfinder'
-    let &runtimepath.=','.escape(expand('%:p:h'), '\,').'/vim-l9'
+    if filereadable(expand('~/.vimrc.local.local'))
+        source ~/.vimrc.local.local
+    endif
+
+    call s:InitCustomPlugins()
 "}}}
 
 " Basic Settings {{{
@@ -17,26 +45,11 @@
 
     " disable indent guides
     let g:indent_guides_enable_on_vim_startup = 0
-
-    " don't auto change dir
-    let g:spf13_no_autochdir=1
-"}}}
-
-" Functions {{{
-    " toggle absolute/relative line number {{{
-    function! NumberToggle()
-      if(&relativenumber == 1)
-        set number
-      else
-        set relativenumber
-      endif
-    endfunc
-    "}}}
 "}}}
 
 " Key Mappings{{{
     " Normal Mode Key Mappings{{{
-    nnoremap <C-n> :call NumberToggle()<cr>
+    nnoremap <C-n> :call <SID>NumberToggle()<cr>
 
     " map to open this file in split window
     nnoremap <Leader>ev :split $MYVIMRC.local<CR>
