@@ -61,6 +61,8 @@
     " map to surround a word with ""
     nnoremap <Leader>" viw<Esc>a"<Esc>hbi"<Esc>lel
     nnoremap <Leader>' viw<Esc>a'<Esc>hbi'<Esc>lel
+    nnoremap <Leader>"" viW<Esc>a"<Esc>hBi"<Esc>lEl
+    nnoremap <Leader>'' viW<Esc>a'<Esc>hBi'<Esc>lEl
 
     " NERD Tree for all tab, and auto mirror
     nnoremap <C-e> :NERDTreeTabsToggle<CR>:NERDTreeMirror<CR>
