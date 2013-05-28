@@ -27,11 +27,4 @@ Bundle 'Shougo/neocomplcache'
 Bundle 'Shougo/neosnippet'
 Bundle 'honza/snipmate-snippets'
 
-
-Bundle 'vim-fuzzyfinder'
-Bundle 'vim-l9'
-Bundle 'vim-mark'
-Bundle 'vim-markHL'
-""Bundle 'vim-lookupfile'
-""Bundle 'vim-genutils'
-
+Bundle 'vim-easymotion'
