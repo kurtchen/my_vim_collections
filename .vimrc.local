@@ -126,10 +126,28 @@
     nnoremap <silent> sr     :FufRenewCache<CR>
     "}}}
     "For mark plugin{{{
-    nmap <unique> <Leader>// <Plug>MarkSearchAnyNext
+    nnoremap <unique> <Leader>// <Plug>MarkSearchAnyNext
     "}}}
     "For LookupFile plugin{{{
-    nmap <unique> <silent> <F3> <Plug>LookupFile
+    nnoremap <unique> <silent> <F4> <Plug>LookupFile
+    "}}}
+    "For EasyMotion{{{
+    nnoremap <unique> <silent> ff <Leader><Leader>f
+    nnoremap <unique> <silent> FF <Leader><Leader>F
+    nnoremap <unique> <silent> tt <Leader><Leader>t
+    nnoremap <unique> <silent> TT <Leader><Leader>T
+    nnoremap <unique> <silent> ww <Leader><Leader>w
+    nnoremap <unique> <silent> WW <Leader><Leader>W
+    nnoremap <unique> <silent> bb <Leader><Leader>b
+    nnoremap <unique> <silent> BB <Leader><Leader>B
+    nnoremap <unique> <silent> ee <Leader><Leader>e
+    nnoremap <unique> <silent> EE <Leader><Leader>E
+    nnoremap <unique> <silent> gee <Leader><Leader>ge
+    nnoremap <unique> <silent> gEE <Leader><Leader>gE
+    nnoremap <unique> <silent> jjj <Leader><Leader>j
+    nnoremap <unique> <silent> kkk <Leader><Leader>k
+    nnoremap <unique> <silent> nn <Leader><Leader>n
+    nnoremap <unique> <silent> NN <Leader><Leader>N
     "}}}
 "}}}
 
@@ -140,6 +158,10 @@
     hi link EasyMotionTarget ErrorMsg
     hi link EasyMotionShade  Comment
     "}}}
+
+    "Grep.vim {{{
+    let Grep_Skip_Dirs = '.git .repo'
+    "}}}
 "}}}
 
 " Abbreviations {{{
@@ -149,6 +171,66 @@
 "}}}
 
 " Auto CMDS {{{
+"}}}
+
+" Commands {{{
+    command! -nargs=* Gdv !git difftool --tool=vimdiff --no-prompt 
+
+    " Grep
+    command! -nargs=* -complete=file Jgrep Grep <args> *.java
+    command! -nargs=* -complete=file Jrgrep Rgrep <args> *.java
+    command! -nargs=* -complete=file Jfgrep Fgrep <args> *.java
+    command! -nargs=* -complete=file Jrfgrep Rfgrep <args> *.java
+    command! -nargs=* -complete=file Jegrep Egrep <args> *.java
+    command! -nargs=* -complete=file Jregrep Regrep <args> *.java
+    command! -nargs=* -complete=file Jagrep Agrep <args> *.java
+    command! -nargs=* -complete=file Jragrep Ragrep <args> *.java
+    command! -nargs=* -complete=file JgrepAdd grepAdd <args> *.java
+    command! -nargs=* -complete=file JrgrepAdd RgrepAdd <args> *.java
+    command! -nargs=* -complete=file JfgrepAdd FgrepAdd <args> *.java
+    command! -nargs=* -complete=file JrfgrepAdd RfgrepAdd <args> *.java
+    command! -nargs=* -complete=file JegrepAdd EgrepAdd <args> *.java
+    command! -nargs=* -complete=file JregrepAdd RegrepAdd <args> *.java
+    command! -nargs=* -complete=file JagrepAdd AgrepAdd <args> *.java
+    command! -nargs=* -complete=file JragrepAdd RagrepAdd <args> *.java
+
+    command! -nargs=* -complete=file Cgrep Grep <args> *.c *.cpp *.cc *.h
+    command! -nargs=* -complete=file Crgrep Rgrep <args> *.c *.cpp *.cc *.h
+    command! -nargs=* -complete=file Cfgrep Fgrep <args> *.c *.cpp *.cc *.h
+    command! -nargs=* -complete=file Crfgrep Rfgrep <args> *.c *.cpp *.cc *.h
+    command! -nargs=* -complete=file Cegrep Egrep <args> *.c *.cpp *.cc *.h
+    command! -nargs=* -complete=file Cregrep Regrep <args> *.c *.cpp *.cc *.h
+    command! -nargs=* -complete=file Cagrep Agrep <args> *.c *.cpp *.cc *.h
+    command! -nargs=* -complete=file Cragrep Ragrep <args> *.c *.cpp *.cc *.h
+    command! -nargs=* -complete=file CgrepAdd grepAdd <args> *.c *.cpp *.cc *.h
+    command! -nargs=* -complete=file CrgrepAdd RgrepAdd <args> *.c *.cpp *.cc *.h
+    command! -nargs=* -complete=file CfgrepAdd FgrepAdd <args> *.c *.cpp *.cc *.h
+    command! -nargs=* -complete=file CrfgrepAdd RfgrepAdd <args> *.c *.cpp *.cc *.h
+    command! -nargs=* -complete=file CegrepAdd EgrepAdd <args> *.c *.cpp *.cc *.h
+    command! -nargs=* -complete=file CregrepAdd RegrepAdd <args> *.c *.cpp *.cc *.h
+    command! -nargs=* -complete=file CagrepAdd AgrepAdd <args> *.c *.cpp *.cc *.h
+    command! -nargs=* -complete=file CragrepAdd RagrepAdd <args> *.c *.cpp *.cc *.h
+
+    command! -nargs=* -complete=file Xmlgrep Grep <args> *.xml
+    command! -nargs=* -complete=file Xmlrgrep Rgrep <args> *.xml
+    command! -nargs=* -complete=file Xmlfgrep Fgrep <args> *.xml
+    command! -nargs=* -complete=file Xmlrfgrep Rfgrep <args> *.xml
+    command! -nargs=* -complete=file Xmlegrep Egrep <args> *.xml
+    command! -nargs=* -complete=file Xmlregrep Regrep <args> *.xml
+    command! -nargs=* -complete=file Xmlagrep Agrep <args> *.xml
+    command! -nargs=* -complete=file Xmlragrep Ragrep <args> *.xml
+    command! -nargs=* -complete=file XmlgrepAdd grepAdd <args> *.xml
+    command! -nargs=* -complete=file XmlrgrepAdd RgrepAdd <args> *.xml
+    command! -nargs=* -complete=file XmlfgrepAdd FgrepAdd <args> *.xml
+    command! -nargs=* -complete=file XmlrfgrepAdd RfgrepAdd <args> *.xml
+    command! -nargs=* -complete=file XmlegrepAdd EgrepAdd <args> *.xml
+    command! -nargs=* -complete=file XmlregrepAdd RegrepAdd <args> *.xml
+    command! -nargs=* -complete=file XmlagrepAdd AgrepAdd <args> *.xml
+    command! -nargs=* -complete=file XmlragrepAdd RagrepAdd <args> *.xml
+
+    "command! -nargs=* Cbgrep Grep
+    "command! -nargs=* CbgrepAdd BgrepAdd
+
 "}}}
 
 " Banner Text {{{

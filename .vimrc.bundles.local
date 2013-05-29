@@ -28,3 +28,4 @@ Bundle 'Shougo/neosnippet'
 Bundle 'honza/snipmate-snippets'
 
 Bundle 'vim-easymotion'
+Bundle 'grep.vim'
