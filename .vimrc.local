@@ -132,22 +132,22 @@
     nnoremap <unique> <silent> <F4> <Plug>LookupFile
     "}}}
     "For EasyMotion{{{
-    nnoremap <unique> <silent> ff <Leader><Leader>f
-    nnoremap <unique> <silent> FF <Leader><Leader>F
-    nnoremap <unique> <silent> tt <Leader><Leader>t
-    nnoremap <unique> <silent> TT <Leader><Leader>T
-    nnoremap <unique> <silent> ww <Leader><Leader>w
-    nnoremap <unique> <silent> WW <Leader><Leader>W
-    nnoremap <unique> <silent> bb <Leader><Leader>b
-    nnoremap <unique> <silent> BB <Leader><Leader>B
-    nnoremap <unique> <silent> ee <Leader><Leader>e
-    nnoremap <unique> <silent> EE <Leader><Leader>E
-    nnoremap <unique> <silent> gee <Leader><Leader>ge
-    nnoremap <unique> <silent> gEE <Leader><Leader>gE
-    nnoremap <unique> <silent> jjj <Leader><Leader>j
-    nnoremap <unique> <silent> kkk <Leader><Leader>k
-    nnoremap <unique> <silent> nn <Leader><Leader>n
-    nnoremap <unique> <silent> NN <Leader><Leader>N
+    nnoremap <silent> ff :call EasyMotion#F(0,0)<CR>
+    nnoremap <silent> FF :call EasyMotion#F(0,1)<CR>
+    nnoremap <silent> tt :call EasyMotion#T(0,0)<CR>
+    nnoremap <silent> TT :call EasyMotion#T(0,1)<CR>
+    nnoremap <silent> ww :call EasyMotion#WB(0,0)<CR>
+    nnoremap <silent> WW :call EasyMotion#WBW(0,0)<CR>
+    nnoremap <silent> bb :call EasyMotion#WB(0,1)<CR>
+    nnoremap <silent> BB :call EasyMotion#WBW(0,1)<CR>
+    nnoremap <silent> ee :call EasyMotion#E(0,0)<CR>
+    nnoremap <silent> EE :call EasyMotion#EW(0,0)<CR>
+    nnoremap <silent> gee :call EasyMotion#E(0,1)<CR>
+    nnoremap <silent> gEE :call EasyMotion#EW(0,1)<CR>
+    "nnoremap <silent> jjj :call EasyMotion#JK(0,0)<CR>
+    "nnoremap <silent> kkk :call EasyMotion#JK(0,1)<CR>
+    nnoremap <silent> nn :call EasyMotion#Search(0,0)<CR>
+    nnoremap <silent> NN :call EasyMotion#Search(0,1)<CR>
     "}}}
 "}}}
 
