@@ -21,6 +21,12 @@
         endif
     endfunc
     "}}}
+
+    " init rtp for the custom plugins {{{
+    function! s:ReplaceCurrentWord()
+        execute ':%s/\<'.expand('<cword>').'\>/'.@".'/gc'
+    endfunc
+    "}}}
 "}}}
 
 " My Pluggins {{{
@@ -50,6 +56,12 @@
 " Key Mappings{{{
     " Normal Mode Key Mappings{{{
     nnoremap <C-n> :call <SID>NumberToggle()<cr>
+
+    " Replace current word with the value in unnamed register
+    nnoremap ss :call <SID>ReplaceCurrentWord()<CR>
+
+    " Replace current word template
+    nmap sa :%s/\<<c-r>=expand("<cword>")<cr>\>//<BS>
 
     " map to open this file in split window
     nnoremap <Leader>ev :split $MYVIMRC.local<CR>
@@ -146,8 +158,8 @@
     nnoremap <silent> gEE :call EasyMotion#EW(0,1)<CR>
     "nnoremap <silent> jjj :call EasyMotion#JK(0,0)<CR>
     "nnoremap <silent> kkk :call EasyMotion#JK(0,1)<CR>
-    nnoremap <silent> nn :call EasyMotion#Search(0,0)<CR>
-    nnoremap <silent> NN :call EasyMotion#Search(0,1)<CR>
+    "nnoremap <silent> nn :call EasyMotion#Search(0,0)<CR>
+    "nnoremap <silent> NN :call EasyMotion#Search(0,1)<CR>
     "}}}
 "}}}
 
