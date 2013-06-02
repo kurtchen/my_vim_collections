@@ -27,9 +27,80 @@
         execute ':%s/\<'.expand('<cword>').'\>/'.@".'/gc'
     endfunc
     "}}}
+
+    " help current word {{{
+    function! s:HelpCurrentWord()
+        execute ':h expand("<cword>")<CR>'
+    endfunc
+    "}}}
+
+    " Use grep to lookup file {{{
+    function! g:MyLookupFileFunc(pattern)
+        if len(pattern) == 0
+            return []
+        endif
+
+        let dir = getcwd()
+
+        if (!exists('s:my_lookup_tag_file'))
+            let s:my_lookup_tag_file = 'cscope.files'
+        endif
+
+        while dir != '/' && !filereadable(dir.'/'.s:my_lookup_tag_file)
+            let dir = fnamemodify(dir, ':h')
+        endwhile
+
+        if filereadable(dir.'/'.s:my_lookup_tag_file)
+            let grepResult = system('grep -i '.a:pattern.' '.dir.'/'.s:my_lookup_tag_file)
+            return split(grepResult, '\n')
+        endif
+
+        return []
+    endfunc
+    "}}}
+
+    " Use grep to lookup file {{{
+    function! s:MyFindConfigFile(fileName)
+        if len(a:fileName) == 0
+            return ''
+        endif
+
+        let dir = getcwd()
+
+        while dir != '/' && !filereadable(dir.'/'.a:fileName)
+            let dir = fnamemodify(dir, ':h')
+        endwhile
+
+        if filereadable(dir.'/'.a:fileName)
+            return dir.'/'.a:fileName
+        endif
+
+        return ''
+    endfunc
+    "}}}
+
+    " cd to Android root{{{
+    function! s:MyCd2AndroidRoot()
+        let topfile = 'build/core/envsetup.mk'
+        let dir = getcwd()
+
+        while dir != '/' && !filereadable(dir.'/'.topfile)
+            let dir = fnamemodify(dir, ':h')
+        endwhile
+
+        if filereadable(dir.'/'.topfile)
+            execute ':cd '.dir
+        endif
+    endfunc
+    "}}}
 "}}}
 
 " My Pluggins {{{
+    " Use my lookup method{{{
+    let g:LookupFile_TagExpr = string('./filenametags')
+    let g:LookupFile_LookupFunc = function('g:MyLookupFileFunc')
+    "}}}
+
     if filereadable(expand('~/.vimrc.local.local'))
         source ~/.vimrc.local.local
     endif
@@ -43,6 +114,9 @@
 
     " 256 color
     set t_Co=256
+
+    " Highlight trailing whitespace
+    match ErrorMsg /\s\+$/
 "}}}
 
 " spf-13 Configurations {{{
@@ -51,6 +125,7 @@
 
     " disable indent guides
     let g:indent_guides_enable_on_vim_startup = 0
+
 "}}}
 
 " Key Mappings{{{
@@ -62,6 +137,9 @@
 
     " Replace current word template
     nmap sa :%s/\<<c-r>=expand("<cword>")<cr>\>//<BS>
+
+    " Help current word
+    nnoremap <Leader>h :h <c-r>=expand('<cword>')<CR><CR>
 
     " map to open this file in split window
     nnoremap <Leader>ev :split $MYVIMRC.local<CR>
@@ -138,10 +216,10 @@
     nnoremap <silent> sr     :FufRenewCache<CR>
     "}}}
     "For mark plugin{{{
-    nnoremap <unique> <Leader>// <Plug>MarkSearchAnyNext
+    "nnoremap <Leader>// :MarkSearchAnyNext<CR>
     "}}}
     "For LookupFile plugin{{{
-    nnoremap <unique> <silent> <F4> <Plug>LookupFile
+    nnoremap <silent> <F4> :LookupFile<CR>
     "}}}
     "For EasyMotion{{{
     nnoremap <silent> ff :call EasyMotion#F(0,0)<CR>
@@ -164,7 +242,6 @@
 "}}}
 
 " Plugin Configurations {{{
-    let g:LookupFile_TagExpr = string('./filenametags')
 
     "EasyMotion highlight{{{
     hi link EasyMotionTarget ErrorMsg
@@ -183,7 +260,7 @@
     endif
 
     let g:syntastic_java_javac_config_file_enabled = 1
-    let g:syntastic_java_javac_config_file = '/projects/mobcom_andrwks_ext25_scratch/users/kurt/hawaii/.syntastic_javac_config'
+    let g:syntastic_java_javac_config_file = s:MyFindConfigFile('.syntastic_javac_config')
     let g:syntastic_java_javac_autoload_maven_classpath = 0
     ""let g:syntastic_java_javac_delete_output = 0
     "}}}
@@ -200,6 +277,9 @@
 
 " Commands {{{
     command! -nargs=* Gdv !git difftool --tool=vimdiff --no-prompt 
+
+    " Android related
+    command! -nargs=0 -complete=command Croot call <SID>MyCd2AndroidRoot()
 
     " Grep
     command! -nargs=* -complete=file Jgrep Grep <args> *.java

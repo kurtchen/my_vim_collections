@@ -338,7 +338,7 @@ if !hasmapto('<Plug>MarkSearchCurrentPrev', 'n')
 	nmap <unique> <Leader># <Plug>MarkSearchCurrentPrev
 endif
 if !hasmapto('<Plug>MarkSearchAnyNext', 'n')
-	nmap <unique> <Leader>/ <Plug>MarkSearchAnyNext
+	nmap <unique> <Leader>// <Plug>MarkSearchAnyNext
 endif
 if !hasmapto('<Plug>MarkSearchAnyPrev', 'n')
 	nmap <unique> <Leader>? <Plug>MarkSearchAnyPrev
