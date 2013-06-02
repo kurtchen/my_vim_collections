@@ -36,7 +36,7 @@
 
     " Use grep to lookup file {{{
     function! g:MyLookupFileFunc(pattern)
-        if len(pattern) == 0
+        if len(a:pattern) == 0
             return []
         endif
 
