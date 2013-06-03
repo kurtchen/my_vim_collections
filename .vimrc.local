@@ -89,7 +89,26 @@
         endwhile
 
         if filereadable(dir.'/'.topfile)
-            execute ':cd '.dir
+            execute ':lcd '.dir
+        endif
+    endfunc
+    "}}}
+
+    " cd to repo root{{{
+    function! s:MyCd2RepoRoot(fileName)
+        let topfile = '.git'
+        if len(a:fileName) == 0
+            let dir = getcwd()
+        else
+            let dir = expand(a:fileName)
+        endif
+
+        while dir != '/' && !isdirectory(dir.'/'.topfile)
+            let dir = fnamemodify(dir, ':h')
+        endwhile
+
+        if isdirectory(dir.'/'.topfile)
+            execute ':lcd '.dir
         endif
     endfunc
     "}}}
@@ -336,6 +355,13 @@
     "command! -nargs=* Cbgrep Grep
     "command! -nargs=* CbgrepAdd BgrepAdd
 
+"}}}
+
+" Auto cmds{{{
+    if g:spf13_no_autochdir == 1
+        autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | call s:MyCd2RepoRoot('%:p:h') | endif
+        " Always switch to the repo directory
+    endif
 "}}}
 
 " Banner Text {{{
