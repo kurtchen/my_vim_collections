@@ -33,7 +33,7 @@
 "
 "  Enjoy...
 
-hi Marks term=reverse ctermfg=0 ctermbg=4 guibg=Grey40
+hi Marks ctermfg=0 ctermbg=12 guifg=Black guibg=#9999FF
 
 function! HLMarks(group)
 	call clearmatches()
@@ -69,8 +69,8 @@ function! DelHLMark(group)
 	endwhile
 endfunction
 
-nmap <silent> <F1> :call HLMarks("Marks")<CR>
-nmap <silent> <F2> :call clearmatches()<CR>
-nmap <silent> <S-F2> :call clearmatches()\|:delmarks a-z<CR>
+""nmap <silent> <F1> :call HLMarks("Marks")<CR>
+""nmap <silent> <F2> :call clearmatches()<CR>
+nmap <silent> <Leader><F5> :call clearmatches()\|:delmarks a-z<CR>
 nmap <silent> <F5> :call AddHLMark("Marks")<CR>
 nmap <silent> <S-F5> :call DelHLMark("Marks")<CR>

@@ -43,7 +43,7 @@
         let dir = getcwd()
 
         if (!exists('s:my_lookup_tag_file'))
-            let s:my_lookup_tag_file = 'cscope.files'
+            let s:my_lookup_tag_file = 'myfilenametags'
         endif
 
         while dir != '/' && !filereadable(dir.'/'.s:my_lookup_tag_file)
@@ -128,6 +128,15 @@
 "}}}
 
 " Basic Settings {{{
+
+    " LaTex Suite
+    filetype plugin on
+    if has('win32') || has('win64')
+        set shellslash
+    endif
+    set grepprg=grep\ -nH\ $*
+    let g:tex_flavor='latex'
+
     " disable mouse
     " set mouse-=a
 
@@ -163,6 +172,9 @@
     " map to open this file in split window
     nnoremap <Leader>ev :split $MYVIMRC.local<CR>
     nnoremap <Leader>sv :source $MYVIMRC.local<CR>
+
+    " map to open marks list
+    nnoremap <Leader><Leader>m :marks<CR>
 
     " map to open TODO in split window
     nnoremap <Leader>et :split ~/Dropbox/Documents/TODO.txt<CR>

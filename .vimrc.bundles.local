@@ -29,3 +29,4 @@ Bundle 'honza/snipmate-snippets'
 
 Bundle 'vim-easymotion'
 Bundle 'grep.vim'
+Bundle 'gerw/vim-latex-suite'
