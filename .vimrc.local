@@ -370,7 +370,7 @@
 "}}}
 
 " Auto cmds{{{
-    if g:spf13_no_autochdir == 1
+    if exists('g:spf13_no_autochdir') && g:spf13_no_autochdir == 1
         autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | call s:MyCd2RepoRoot('%:p:h') | endif
         " Always switch to the repo directory
     endif
