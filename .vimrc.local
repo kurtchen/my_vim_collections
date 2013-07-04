@@ -367,6 +367,11 @@
     "command! -nargs=* Cbgrep Grep
     "command! -nargs=* CbgrepAdd BgrepAdd
 
+    " no need to do syntax check when saving file
+    command! -nargs=* -complete=command Nw noautocmd w
+
+    " DiffOrig
+    command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
 "}}}
 
 " Auto cmds{{{
