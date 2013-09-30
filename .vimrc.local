@@ -255,6 +255,9 @@
     " map to open TODO in split window
     nnoremap <Leader>et :split ~/Dropbox/Documents/TODO.txt<CR>
 
+    " format the whole source and restore previous view
+    nnoremap <silent> g= :let b:winview=winsaveview()<CR>gg=G:call winrestview(b:winview)<CR>
+
     " map to surround a word with ""
     nnoremap <Leader>" viw<Esc>a"<Esc>hbi"<Esc>lel
     nnoremap <Leader>' viw<Esc>a'<Esc>hbi'<Esc>lel
