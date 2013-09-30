@@ -112,6 +112,43 @@
         endif
     endfunc
     "}}}
+
+    " Close all buffer at a time{{{
+    function! s:CloseAllBuffers(pattern)
+        let bufNr = bufnr('$')
+        let deletedCount = 0
+        while bufNr > 0
+            if buflisted(bufNr)
+                if a:pattern == '' || matchstr(bufname(bufNr), '.'.a:pattern.'$') == '.'.a:pattern
+                    if getbufvar(bufNr, '&modified') == 0
+                        execute 'bd '.bufNr
+                        let deletedCount = deletedCount + 1
+                    endif
+                endif
+            endif
+            let bufNr = bufNr - 1
+        endwhile
+        echomsg deletedCount 'buffer(s) deleted'
+    endfunction
+    "}}}
+
+    " Close all but current buffer at a time{{{
+    function! s:CloseOtherBuffers()
+        let bufNr = bufnr('$')
+        let curBufNr = bufnr('%')
+        let deletedCount = 0
+        while bufNr > 0
+            if buflisted(bufNr)
+                if bufNr != curBufNr && getbufvar(bufNr, '&modified') == 0
+                    execute 'bd '.bufNr
+                    let deletedCount = deletedCount + 1
+                endif
+            endif
+            let bufNr = bufNr - 1
+        endwhile
+        echomsg deletedCount 'buffer(s) deleted'
+    endfunction
+    "}}}
 "}}}
 
 " My Pluggins {{{
@@ -143,6 +180,9 @@
     " 256 color
     set t_Co=256
 
+    " utf8
+    set encoding=utf8
+
     " Highlight trailing whitespace
     match ErrorMsg /\s\+$/
 "}}}
@@ -155,6 +195,42 @@
     let g:indent_guides_enable_on_vim_startup = 0
 
 "}}}
+
+" CSCOPE SETTINGS{{{
+    if has("cscope")
+        "set csprg=/home/kurt/bin/cscope/bin/cscope
+        set csto=0
+        "set cst
+        set nocsverb
+        " add any database in current directory
+        if filereadable("cscope.out")
+            cs add cscope.out
+        " else add database pointed to by environment
+        elseif $CSCOPE_DB != ""
+            cs add $CSCOPE_DB
+        " search to the root
+        else
+            let s:cscope_file = s:MyFindConfigFile('cscope.out')
+            if len(s:cscope_file) > 0
+                cs add s:cscope_file
+            endif
+        endif
+        set csverb
+
+        set cscopequickfix=s-,g-,d-,c-,t-,e-,f-,i-
+
+        " Key Mappings {{{
+        nmap <C-_>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+        nmap <C-_>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+        nmap <C-_>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+        nmap <C-_>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+        nmap <C-_>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+        nmap <C-_>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+        nmap <C-_>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+        nmap <C-_>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+        " }}}
+    endif
+" }}}
 
 " Key Mappings{{{
     " Normal Mode Key Mappings{{{
@@ -270,6 +346,19 @@
     "nnoremap <silent> nn :call EasyMotion#Search(0,0)<CR>
     "nnoremap <silent> NN :call EasyMotion#Search(0,1)<CR>
     "}}}
+
+    " Search for selected text, forwards or backwards {{{
+    vnoremap <silent> * :<C-U>
+      \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+      \gvy/<C-R><C-R>=substitute(
+      \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+      \gV:call setreg('"', old_reg, old_regtype)<CR>
+    vnoremap <silent> # :<C-U>
+      \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+      \gvy?<C-R><C-R>=substitute(
+      \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+      \gV:call setreg('"', old_reg, old_regtype)<CR>
+    " }}}
 "}}}
 
 " Plugin Configurations {{{
@@ -311,6 +400,11 @@
 
     " Android related
     command! -nargs=0 -complete=command Croot call <SID>MyCd2AndroidRoot()
+
+    " Close all buffers
+    command! -nargs=0 -complete=command CloseAll call <SID>CloseAllBuffers('')
+    command! -nargs=1 -complete=command CloseAllPattern call <SID>CloseAllBuffers(<f-args>)
+    command! -nargs=0 -complete=command CloseOthers call <SID>CloseOtherBuffers()
 
     " Grep
     command! -nargs=* -complete=file Jgrep Grep <args> *.java
@@ -366,6 +460,9 @@
 
     "command! -nargs=* Cbgrep Grep
     "command! -nargs=* CbgrepAdd BgrepAdd
+
+    " Grep in current buffer
+    command! -nargs=* -complete=file Lgrep Grep <args> %
 
     " no need to do syntax check when saving file
     command! -nargs=* -complete=command Nw noautocmd w
