@@ -375,7 +375,7 @@
     nnoremap <silent> s<     :FufBufferTag!<CR>
     vnoremap <silent> s,     :FufBufferTagWithSelectedText!<CR>
     vnoremap <silent> s<     :FufBufferTagWithSelectedText<CR>
-    nnoremap <silent> s}     :FufBufferTagWithCursorWord!<CR>
+    nnoremap <silent> s}     :mark '\|:FufBufferTagWithCursorWord!<CR>
     nnoremap <silent> s.     :FufBufferTagAll<CR>
     nnoremap <silent> s>     :FufBufferTagAll!<CR>
     vnoremap <silent> s.     :FufBufferTagAllWithSelectedText!<CR>
@@ -428,6 +428,20 @@
       \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
       \gV:call setreg('"', old_reg, old_regtype)<CR>
     " }}}
+
+    " Move line {{{
+    " Normal mode
+    nnoremap <C-j> :m .+1<CR>==
+    nnoremap <C-k> :m .-2<CR>==
+
+    " Insert mode
+    inoremap <C-j> <ESC>:m .+1<CR>==gi
+    inoremap <C-k> <ESC>:m .-2<CR>==gi
+
+    " Visual mode
+    vnoremap <C-j> :m '>+1<CR>gv=gv
+    vnoremap <C-k> :m '<-2<CR>gv=gv
+    "}}}
 "}}}
 
 " Plugin Configurations {{{
@@ -484,7 +498,7 @@
     command! -nargs=* -complete=file Jregrep Regrep <args> *.java
     command! -nargs=* -complete=file Jagrep Agrep <args> *.java
     command! -nargs=* -complete=file Jragrep Ragrep <args> *.java
-    command! -nargs=* -complete=file JgrepAdd grepAdd <args> *.java
+    command! -nargs=* -complete=file JgrepAdd GrepAdd <args> *.java
     command! -nargs=* -complete=file JrgrepAdd RgrepAdd <args> *.java
     command! -nargs=* -complete=file JfgrepAdd FgrepAdd <args> *.java
     command! -nargs=* -complete=file JrfgrepAdd RfgrepAdd <args> *.java
@@ -501,7 +515,7 @@
     command! -nargs=* -complete=file Cregrep Regrep <args> *.c *.cpp *.cc *.h
     command! -nargs=* -complete=file Cagrep Agrep <args> *.c *.cpp *.cc *.h
     command! -nargs=* -complete=file Cragrep Ragrep <args> *.c *.cpp *.cc *.h
-    command! -nargs=* -complete=file CgrepAdd grepAdd <args> *.c *.cpp *.cc *.h
+    command! -nargs=* -complete=file CgrepAdd GrepAdd <args> *.c *.cpp *.cc *.h
     command! -nargs=* -complete=file CrgrepAdd RgrepAdd <args> *.c *.cpp *.cc *.h
     command! -nargs=* -complete=file CfgrepAdd FgrepAdd <args> *.c *.cpp *.cc *.h
     command! -nargs=* -complete=file CrfgrepAdd RfgrepAdd <args> *.c *.cpp *.cc *.h
@@ -518,7 +532,7 @@
     command! -nargs=* -complete=file Xmlregrep Regrep <args> *.xml
     command! -nargs=* -complete=file Xmlagrep Agrep <args> *.xml
     command! -nargs=* -complete=file Xmlragrep Ragrep <args> *.xml
-    command! -nargs=* -complete=file XmlgrepAdd grepAdd <args> *.xml
+    command! -nargs=* -complete=file XmlgrepAdd GrepAdd <args> *.xml
     command! -nargs=* -complete=file XmlrgrepAdd RgrepAdd <args> *.xml
     command! -nargs=* -complete=file XmlfgrepAdd FgrepAdd <args> *.xml
     command! -nargs=* -complete=file XmlrfgrepAdd RfgrepAdd <args> *.xml
@@ -532,6 +546,7 @@
 
     " Grep in current buffer
     command! -nargs=* -complete=file Lgrep Grep <args> %
+    command! -nargs=* -complete=file LgrepAdd GrepAdd <args> %
 
     " no need to do syntax check when saving file
     command! -nargs=* -complete=command Nw noautocmd w
