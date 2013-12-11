@@ -166,6 +166,10 @@
     endfunction
 
     function! s:AddTagsByPath(tagPath)
+        if strlen(a:tagPath) == 0
+            return
+        endif
+
         if stridx(&tags, a:tagPath) == -1
             if strlen(&tags) == 0
                 let &tags = a:tagPath
@@ -569,6 +573,8 @@
     if exists('g:my_auto_add_tags') && g:my_auto_add_tags == 1
         autocmd FileType python autocmd BufEnter <buffer> call <SID>AddTags('py')
         autocmd FileType python autocmd BufLeave <buffer> call <SID>RemoveTags('py')
+        autocmd FileType php autocmd BufEnter <buffer> call <SID>AddTags('php')
+        autocmd FileType php autocmd BufLeave <buffer> call <SID>RemoveTags('php')
     endif
 "}}}
 
