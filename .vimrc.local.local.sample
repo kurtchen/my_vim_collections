@@ -1,0 +1,9 @@
+" define the custom bundle directory
+let g:my_vim_collections_dir="~/my_vim_collections"
+
+" auto add tags
+let g:my_auto_add_tags = 1
+let g:my_tags_path = {
+    \ 'py' : '/projects/mobcom_andrwks_ext25_scratch/users/kurt/others/python/Python-2.7.5/tags',
+    \ 'php' : '/projects/mobcom_andrwks_ext25_scratch/users/kurt/others/php-src/tags'
+    \ }
