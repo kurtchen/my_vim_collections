@@ -150,6 +150,25 @@
     endfunction
     "}}}
 
+    " Close buffers not under PWD {{{
+    function! s:CloseNotPwdBuffers()
+        let bufNr = bufnr('$')
+        let deletedCount = 0
+        while bufNr > 0
+            if buflisted(bufNr)
+                if strpart(bufname(bufNr), 0, 1) == '/'
+                    if getbufvar(bufNr, '&modified') == 0
+                        execute 'bd '.bufNr
+                        let deletedCount = deletedCount + 1
+                    endif
+                endif
+            endif
+            let bufNr = bufNr - 1
+        endwhile
+        echomsg deletedCount 'buffer(s) deleted'
+    endfunction
+    "}}}
+
     " Add tags file to &tags {{{
     function! s:AddTags(tagName)
         if exists('g:my_tags_path') && has_key(g:my_tags_path, a:tagName)
@@ -492,6 +511,7 @@
     command! -nargs=0 -complete=command CloseAll call <SID>CloseAllBuffers('')
     command! -nargs=1 -complete=command CloseAllPattern call <SID>CloseAllBuffers(<f-args>)
     command! -nargs=0 -complete=command CloseOthers call <SID>CloseOtherBuffers()
+    command! -nargs=0 -complete=command CloseNotPwd call <SID>CloseNotPwdBuffers()
 
     " Grep
     command! -nargs=* -complete=file Jgrep Grep <args> *.java
