@@ -1,0 +1,107 @@
+global !p
+from wiki_base import *
+endglobal
+
+snippet h2 "Header Level 2" b
+== ${VISUAL}$1 ==
+$0
+endsnippet
+
+snippet h3 "Header Level 3" b
+=== ${VISUAL}$1 ===
+$0
+endsnippet
+
+snippet h4 "Header Level 4" b
+==== ${VISUAL}$1 ====
+$0
+endsnippet
+
+snippet h5 "Header Level 5" b
+===== ${VISUAL}$1 =====
+$0
+endsnippet
+
+snippet h6 "Header Level 6" b
+====== ${VISUAL}$1 ======
+$0
+endsnippet
+
+snippet i "italic text"
+''${VISUAL}$1'' $0
+endsnippet
+
+snippet b "bold text"
+'''${VISUAL}$1''' $0
+endsnippet
+
+snippet bi "bold and italic text"
+''''${VISUAL}$1'''' $0
+endsnippet
+
+snippet strike "striked or deleted text"
+<strike>${VISUAL}$1</strike> $0
+endsnippet
+
+snippet u "underlined text"
+<u>${VISUAL}$0</u> $0
+endsnippet
+
+snippet m "monospaced text"
+<tt>${VISUAL}$1</tt> $0
+endsnippet
+
+snippet sup "superscript text"
+<sup>${VISUAL}$1</sup> $0
+endsnippet
+
+snippet sub "subscript text"
+<sub>${VISUAL}$1</sub> $0
+endsnippet
+
+snippet nowiki "nowiki text"
+<nowiki>${VISUAL}$1</nowiki> $0
+endsnippet
+
+snippet bl "bullet list" b
+* ${VISUAL}$1
+endsnippet
+
+snippet ol "numbered list" b
+# ${VISUAL}$1
+endsnippet
+
+snippet il "an internal link"
+[[${VISUAL}$1|$2]] $0
+endsnippet
+
+snippet el "an external link"
+[${VISUAL}$1 $2] $0
+endsnippet
+
+snippet res "external ressources such as images and files"
+[[Image:${VISUAL}$1]] $0
+endsnippet
+
+snippet ilcode "inline code block"
+<code>${VISUAL}$1</code> $0
+endsnippet
+
+snippet code "code code block with syntax highlighting"
+<source lang=$1`!p snip.rv=complete(t[1], source_highlight)`>
+${VISUAL}$0
+</source>
+endsnippet
+
+snippet hrule "horizontal ruler"
+----
+endsnippet
+
+snippet in "indent" b
+: ${VISUAL}$1
+endsnippet
+
+#custom extensions
+snippet s "simple status indication (TODO, WIP, DONE)"
+{{$1`!p snip.rv=complete(t[1], ["no", "yes", "WIP"])`|`!p snip.rv = replace(t[1], {"no":"TODO", "yes":"DONE", "WIP":"WIP"})`}} $0
+endsnippet

@@ -472,6 +472,12 @@
 
 " Plugin Configurations {{{
 
+    if (exists('g:neosnippet#snippets_directory'))
+        let g:neosnippet#snippets_directory = g:neosnippet#snippets_directory .
+                    \ ', ' . g:my_vim_collections_dir . '/snippets' .
+                    \ ', ~/.vim/bundle/snipmate-snippets/snippets'
+    endif
+
     "EasyMotion highlight{{{
     hi link EasyMotionTarget ErrorMsg
     hi link EasyMotionShade  Comment
@@ -502,6 +508,16 @@
 "}}}
 
 " Auto CMDS {{{
+    " tagbar mediawiki support {{{
+    "autocmd FileType mediawiki :!ctags %
+    let g:tagbar_type_mediawiki = {
+      \ 'ctagstype' : 'mediawiki',
+      \ 'kinds'     : [
+      \ 'h:header',
+      \ ],
+      \ 'sort'    : 0
+      \ }
+    "}}}
 "}}}
 
 " Commands {{{

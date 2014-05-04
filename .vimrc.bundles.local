@@ -38,4 +38,6 @@
     Bundle 'vim-easymotion'
     Bundle 'grep.vim'
     Bundle 'gerw/vim-latex-suite'
+
+    Bundle 'chikamichi/mediawiki.vim'
 " }}}
