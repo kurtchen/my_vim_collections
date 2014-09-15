@@ -1,43 +1,11 @@
-" spf13 settings {{{
-    " don't auto change dir
-    let g:spf13_no_autochdir=1
-
-    " use my own plugins
-    let g:override_spf13_bundles=1
-" }}}
-
 " for different computers {{{
     if filereadable(expand('~/.vimrc.bundles.local.local'))
         source ~/.vimrc.bundles.local.local
     endif
 " }}}
 
-" so here's the plugins {{{
-    Bundle 'scrooloose/nerdtree'
-    Bundle 'altercation/vim-colors-solarized'
-    Bundle 'spf13/vim-autoclose'
-    Bundle 'vim-scripts/sessionman.vim'
-    Bundle 'Lokaltog/vim-powerline'
-    Bundle 'godlygeek/csapprox'
-    Bundle 'jistr/vim-nerdtree-tabs'
-    Bundle 'mbbill/undotree'
-    if !exists('g:spf13_no_views')
-        Bundle 'vim-scripts/restore_view.vim'
-    endif
-    Bundle 'scrooloose/syntastic'
-    Bundle 'tpope/vim-fugitive'
-    Bundle 'scrooloose/nerdcommenter'
-    Bundle 'godlygeek/tabular'
-    if executable('ctags')
-        Bundle 'majutsushi/tagbar'
-    endif
-    Bundle 'Shougo/neocomplcache'
-    Bundle 'Shougo/neosnippet'
-    Bundle 'honza/snipmate-snippets'
-
-    Bundle 'vim-easymotion'
+" so here's my the plugins {{{
     Bundle 'grep.vim'
     Bundle 'gerw/vim-latex-suite'
-
     Bundle 'chikamichi/mediawiki.vim'
 " }}}

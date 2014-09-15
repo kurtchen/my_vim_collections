@@ -1,2 +1,13 @@
-let g:spf13_no_easyWindows = 1
-let g:spf13_no_neosnippet_expand = 1
+" spf13 settings {{{
+    " don't auto change dir
+    let g:spf13_no_autochdir=1
+
+    " use my own plugins
+    "let g:override_spf13_bundles=1
+    let g:spf13_bundle_groups=['general', 'writing', 'neocomplcache', 'programming', 'python', 'misc']
+" }}}
+
+" plugin settings {{{
+    let g:spf13_no_easyWindows = 1
+    let g:spf13_no_neosnippet_expand = 1
+" }}}
