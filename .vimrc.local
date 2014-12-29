@@ -598,9 +598,9 @@
     command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
 
     " Add/Remove/List &tags
-    command! -nargs=1 -complete=command AddTags call <SID>AddTags(<f-args>)
-    command! -nargs=1 -complete=command RemoveTags call <SID>RemoveTags(<f-args>)
-    command! -nargs=0 -complete=command ListTags call <SID>ListTags()
+    command! -nargs=1 -complete=file AddTags call <SID>AddTags(<f-args>)
+    command! -nargs=1 -complete=file RemoveTags call <SID>RemoveTags(<f-args>)
+    command! -nargs=0 -complete=file ListTags call <SID>ListTags()
 "}}}
 
 " Auto cmds{{{
@@ -615,6 +615,10 @@
         autocmd FileType php autocmd BufEnter <buffer> call <SID>AddTags('php')
         autocmd FileType php autocmd BufLeave <buffer> call <SID>RemoveTags('php')
     endif
+    " let aidl file behave like java
+    autocmd BufNewFile,BufRead *.aidl set filetype=java
+    autocmd BufNewFile,BufRead *.gradle set filetype=groovy
+    autocmd VimResized,VimEnter * let g:fuf_maxMenuWidth=winwidth(0)
 "}}}
 
 " Banner Text {{{

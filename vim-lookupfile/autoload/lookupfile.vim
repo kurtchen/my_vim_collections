@@ -320,6 +320,7 @@ function! s:OpenCurFile(splitWin)
     catch /^Vim\%((\a\+)\)\=:E325/
       " Ignore, this anyway means the file was found.
     catch
+      let fileName=fnameescape(fileName)
       try
         exec (splitOpen?'split':'edit') fileName
       catch /^Vim\%((\a\+)\)\=:E325/

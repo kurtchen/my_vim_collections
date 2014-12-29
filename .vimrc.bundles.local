@@ -8,4 +8,5 @@
     Bundle 'grep.vim'
     Bundle 'gerw/vim-latex-suite'
     Bundle 'chikamichi/mediawiki.vim'
+    Bundle 'kablamo/vim-git-log'
 " }}}
