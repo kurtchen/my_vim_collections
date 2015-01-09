@@ -1,3 +1,5 @@
+" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={{{,}}} foldlevel=0 foldmethod=marker spell:
+
 " Functions {{{
     " toggle absolute/relative line number {{{
     function! s:NumberToggle()
@@ -238,12 +240,64 @@
         echomsg '&tags=' . &tags
     endfunction
     "}}}
+
+    " Save quick fix list {{{
+    function! s:SaveQuickFixList()
+        let l:tags_file = s:MyFindConfigFile('tags')
+        let l:output_name = '~/.cache/.vim_quick_fix'
+        if strlen(l:tags_file) > 0
+            let l:tags_path = fnamemodify(l:tags_file, ":p:h")
+            let l:tags_path = substitute(l:tags_path, "/", "_", "g")
+            let l:output_name = "~/.cache/" . l:tags_path
+            let l:output_name .= ".vim_quick_fix"
+        endif
+
+        execute "copen"
+        execute "w! " . l:output_name
+    endfunction
+    "}}}
+
+    " Restore quick fix list {{{
+    function! s:RestoreQuickFixList()
+        let l:tags_file = s:MyFindConfigFile('tags')
+        let l:output_name = '~/.cache/.vim_quick_fix'
+        if strlen(l:tags_file) > 0
+            let l:tags_path = fnamemodify(l:tags_file, ":p:h")
+            let l:tags_path = substitute(l:tags_path, "/", "_", "g")
+            let l:output_name = "~/.cache/" . l:tags_path
+            let l:output_name .= ".vim_quick_fix"
+        endif
+
+        let l:old_efm = &efm
+        set efm=%f\\\|%\\s%#%l\\\|%m,%D\\\|\\\|\ Entering\ dir\ '%f',%X\\\|\\\|\ Leaving\ dir\ '%f',\\\|\\\|\ %m
+
+        if exists(":cgetfile")
+            execute "silent! cgetfile " . l:output_name
+        else
+            execute "silent! cfile " . l:output_name
+        endif
+
+        let &efm = l:old_efm
+    endfunction
+    "}}}
+
+    " Restore quick fix list {{{
+    function! s:MyDebug(func_name, ...)
+        let l:MyFn = function(a:func_name)
+        call l:MyFn()
+    endfunction
+    "}}}
 "}}}
 
 " My Pluggins {{{
     " Use my lookup method{{{
     let g:LookupFile_TagExpr = string('./filenametags')
     let g:LookupFile_LookupFunc = function('g:MyLookupFileFunc')
+    "}}}
+
+    " Use my lookup method{{{
+    let g:Grep_Auto_Save_Results = 'ON'
+    let g:Grep_Auto_Save_Results_Func = function('s:SaveQuickFixList')
     "}}}
 
     if filereadable(expand('~/.vimrc.local.local'))
@@ -601,6 +655,9 @@
     command! -nargs=1 -complete=file AddTags call <SID>AddTags(<f-args>)
     command! -nargs=1 -complete=file RemoveTags call <SID>RemoveTags(<f-args>)
     command! -nargs=0 -complete=file ListTags call <SID>ListTags()
+
+    " Only for debug
+    command! -nargs=* -complete=file MyDebug call <SID>MyDebug(<f-args>)
 "}}}
 
 " Auto cmds{{{
@@ -619,6 +676,7 @@
     autocmd BufNewFile,BufRead *.aidl set filetype=java
     autocmd BufNewFile,BufRead *.gradle set filetype=groovy
     autocmd VimResized,VimEnter * let g:fuf_maxMenuWidth=winwidth(0)
+    autocmd VimEnter * call <SID>RestoreQuickFixList()
 "}}}
 
 " Banner Text {{{

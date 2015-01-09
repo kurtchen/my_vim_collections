@@ -5,8 +5,8 @@
 " }}}
 
 " so here's my the plugins {{{
-    Bundle 'grep.vim'
     Bundle 'gerw/vim-latex-suite'
     Bundle 'chikamichi/mediawiki.vim'
     Bundle 'kurtchen/vim-git-log'
+    Bundle 'kurtchen/grep.vim'
 " }}}

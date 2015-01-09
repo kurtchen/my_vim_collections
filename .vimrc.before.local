@@ -11,3 +11,16 @@
     let g:spf13_no_easyWindows = 1
     let g:spf13_no_neosnippet_expand = 1
 " }}}
+
+" Functions {{{
+    " Save quick fix list {{{
+    function! s:SyncMyColors()
+        let l:linenr_bg = synIDattr(synIDtrans(hlID("LineNr")), "bg")
+        execute 'hi SignColumn ctermbg=' . l:linenr_bg
+    endfunction
+    "}}}
+" }}}
+
+" Auto Commands {{{
+    autocmd ColorScheme * call <SID>SyncMyColors()
+" }}}
