@@ -9,4 +9,5 @@
     Bundle 'chikamichi/mediawiki.vim'
     Bundle 'kurtchen/vim-git-log'
     Bundle 'kurtchen/grep.vim'
+    Bundle 'guns/xterm-color-table.vim'
 " }}}

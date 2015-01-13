@@ -10,6 +10,7 @@
 " plugin settings {{{
     let g:spf13_no_easyWindows = 1
     let g:spf13_no_neosnippet_expand = 1
+    let g:airline_enable_bufferline = 0
 " }}}
 
 " Functions {{{
