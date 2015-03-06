@@ -287,6 +287,53 @@
         call l:MyFn()
     endfunction
     "}}}
+
+    " Add comments for #endif
+    function! s:CommentEndif(count, line1, line2)
+        let l:cur_line = line(".")
+        let l:max_line = line("$")
+
+        echo "count=" . a:count . " line1=" . a:line1 . " line2=" . a:line2
+
+        if a:line1 < 0 || a:line1 > l:max_line || a:line2 < 0 || a:line2 >
+                    \ l:max_line || a:line1 > a:line2
+            echo "Invalid range: count=" . a:count . " line1=" . a:line1 . " line2=" . a:line2
+            return
+        endif
+
+        let l:start_line = a:line1
+        let l:end_line = a:line2
+        let l:line = l:start_line
+
+        while l:line <= l:end_line
+            let l:line_content = getline(l:line)
+            if l:line_content == "#endif" || l:line_content == "#else"
+                execute "normal! " . l:line . "G"
+                if l:line_content == "#else"
+                    execute "normal! [#"
+                else
+                    execute "normal! %"
+                endif
+                "execute "normal! y$"
+                let l:match_line_content = getline(".")
+                let l:match_line_content = substitute(l:match_line_content,
+                            \ "\/\/.*$", "", "g")
+                let l:match_line_content = substitute(l:match_line_content,
+                            \ "\/\\\*.*\\\*\/$", "", "g")
+
+                execute "normal! " . l:line . "G"
+                call setline(l:line, l:line_content . " // " .
+                            \ l:match_line_content)
+            endif
+
+            if l:line == l:end_line
+                break
+            endif
+
+            let l:line += 1
+        endwhile
+
+    endfunction
 "}}}
 
 " My Pluggins {{{
@@ -328,6 +375,8 @@
 
     " Highlight trailing whitespace
     match ErrorMsg /\s\+$/
+
+    set listchars=tab:,.,trail:.,extends:#,nbsp:. " Highlight problematic whitespace
 "}}}
 
 " spf-13 Configurations {{{
@@ -522,6 +571,9 @@
     " sudo save
     cmap w!! w !sudo tee > /dev/null %
     "}}}
+
+    " clear quick list
+    nnoremap qc :call setqflist([])<CR>:cclose<CR>
 "}}}
 
 " Plugin Configurations {{{
@@ -552,6 +604,10 @@
     let g:syntastic_java_javac_config_file = s:MyFindConfigFile('.syntastic_javac_config')
     let g:syntastic_java_javac_autoload_maven_classpath = 0
     ""let g:syntastic_java_javac_delete_output = 0
+    "}}}
+
+    " BufferLine {{{
+        let g:bufferline_rotate = 2
     "}}}
 "}}}
 
@@ -658,6 +714,9 @@
 
     " Only for debug
     command! -nargs=* -complete=file MyDebug call <SID>MyDebug(<f-args>)
+
+    " Add comment for #endif #else
+    command! -nargs=0 -complete=command -range CommentEndif call <SID>CommentEndif(<count>,<line1>,<line2>)
 "}}}
 
 " Auto cmds{{{
