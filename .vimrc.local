@@ -288,12 +288,12 @@
     endfunction
     "}}}
 
-    " Add comments for #endif
+    " Add comments for #endif {{{
     function! s:CommentEndif(count, line1, line2)
         let l:cur_line = line(".")
         let l:max_line = line("$")
 
-        echo "count=" . a:count . " line1=" . a:line1 . " line2=" . a:line2
+        "echo "count=" . a:count . " line1=" . a:line1 . " line2=" . a:line2
 
         if a:line1 < 0 || a:line1 > l:max_line || a:line2 < 0 || a:line2 >
                     \ l:max_line || a:line1 > a:line2
@@ -332,8 +332,29 @@
 
             let l:line += 1
         endwhile
+    endfunction
+    "}}}
+
+    " Add comments for #endif {{{
+    function! s:AddFunctionLog(tag_override)
+        let l:tag_name = ""
+        if (strlen(a:tag_override) > 0)
+            let l:tag_name = a:tag_override
+        elseif exists(':TagbarToggle')
+            let l:tag_name = tagbar#currenttag("%s", "")
+        endif
+
+        if strlen(l:tag_name) > 0
+            let l:enter_log = "LOGV(\"" . l:tag_name . " ++\");"
+            let l:exit_log = "LOGV(\"" . l:tag_name . " --\");"
+            let l:logs = [l:enter_log, l:exit_log]
+            call append(line("."), l:logs)
+
+            execute "normal! =i{"
+        endif
 
     endfunction
+    "}}}
 "}}}
 
 " My Pluggins {{{
@@ -717,6 +738,8 @@
 
     " Add comment for #endif #else
     command! -nargs=0 -complete=command -range CommentEndif call <SID>CommentEndif(<count>,<line1>,<line2>)
+    command! -nargs=0 -complete=command AddFuncLog call <SID>AddFunctionLog("")
+    command! -nargs=+ -complete=command AddFuncLogOverride call <SID>AddFunctionLog(<f-args>)
 "}}}
 
 " Auto cmds{{{
