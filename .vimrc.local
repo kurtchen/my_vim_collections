@@ -372,12 +372,12 @@
 
         let l:dir = expand('%:p:h')
 
-        echo 'Grep ' . l:grep_opt . ' ' . l:pattern . ' ' . l:dir
+        "echo 'Grep ' . l:grep_opt . ' ' . l:pattern . ' ' . l:dir
 
         if (a:add == 0)
-            execute 'Grep -nr' . l:grep_opt . ' ' . l:pattern . ' ' . l:dir
+            execute 'Grep -nr ' . l:grep_opt . ' ' . l:pattern . ' ' . l:dir
         else
-            execute 'GrepAdd -nr' . l:grep_opt . ' ' . l:pattern . ' ' . l:dir
+            execute 'GrepAdd -nr ' . l:grep_opt . ' ' . l:pattern . ' ' . l:dir
         endif
     endfunction
     "}}}"
@@ -750,7 +750,7 @@
 
     " Grep in the directory of current buffer
     command! -nargs=* -complete=file Kgrep call <SID>GrepCurrentBufferDir(0, <f-args>)
-    command! -nargs=* -complete=file KgrepAdd GrepAdd call <SID>GrepCurrentBufferDir(1, <f-args>)
+    command! -nargs=* -complete=file KgrepAdd call <SID>GrepCurrentBufferDir(1, <f-args>)
 
     " no need to do syntax check when saving file
     command! -nargs=* -complete=command Nw noautocmd w
