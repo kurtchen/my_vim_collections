@@ -355,6 +355,32 @@
 
     endfunction
     "}}}
+
+    "{{{"
+    function! s:GrepCurrentBufferDir(add, ...)
+        let l:argcnt = 1
+        let l:grep_opt = ""
+        let l:pattern = ""
+        while l:argcnt <= a:0
+            if a:{l:argcnt} =~ '^-'
+                let l:grep_opt = l:grep_opt . " " . a:{l:argcnt}
+            else
+                let l:pattern = a:{l:argcnt}
+            endif
+            let l:argcnt = l:argcnt + 1
+        endwhile
+
+        let l:dir = expand('%:p:h')
+
+        echo 'Grep ' . l:grep_opt . ' ' . l:pattern . ' ' . l:dir
+
+        if (a:add == 0)
+            execute 'Grep -nr' . l:grep_opt . ' ' . l:pattern . ' ' . l:dir
+        else
+            execute 'GrepAdd -nr' . l:grep_opt . ' ' . l:pattern . ' ' . l:dir
+        endif
+    endfunction
+    "}}}"
 "}}}
 
 " My Pluggins {{{
@@ -721,6 +747,10 @@
     " Grep in current buffer
     command! -nargs=* -complete=file Lgrep Grep <args> %
     command! -nargs=* -complete=file LgrepAdd GrepAdd <args> %
+
+    " Grep in the directory of current buffer
+    command! -nargs=* -complete=file Kgrep call <SID>GrepCurrentBufferDir(0, <f-args>)
+    command! -nargs=* -complete=file KgrepAdd GrepAdd call <SID>GrepCurrentBufferDir(1, <f-args>)
 
     " no need to do syntax check when saving file
     command! -nargs=* -complete=command Nw noautocmd w
