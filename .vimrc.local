@@ -356,7 +356,7 @@
     endfunction
     "}}}
 
-    "{{{"
+    "Grep files under the dir of current buffer {{{"
     function! s:GrepCurrentBufferDir(add, ...)
         let l:argcnt = 1
         let l:grep_opt = ""
@@ -378,6 +378,53 @@
             execute 'Grep -nr ' . l:grep_opt . ' ' . l:pattern . ' ' . l:dir
         else
             execute 'GrepAdd -nr ' . l:grep_opt . ' ' . l:pattern . ' ' . l:dir
+        endif
+    endfunction
+    "}}}"
+
+    "Copy lines with highlighted words {{{"
+    function! s:CopyLinesWithHighlightWords(index)
+        let l:group_pattern = 'MarkWord'
+        if a:index > 0
+            let l:group_pattern = 'MarkWord' . a:index
+        endif
+
+        let l:linenr = 0
+        let l:match_list = getmatches()
+        let l:match_keywords = []
+        let l:one_match = {}
+        for l:one_match in l:match_list
+            let l:group = l:one_match["group"]
+            if stridx(l:group, l:group_pattern) == 0
+                let l:pattern = l:one_match["pattern"]
+                let l:match_keywords += [l:pattern]
+                if a:index > 0
+                    break
+                endif
+            endif
+        endfor
+
+        let l:count = 0
+        while l:linenr < line("$")
+          let l:linenr += 1
+          let l:line = getline(l:linenr)
+          for l:key in l:match_keywords
+              let l:match = match(l:line, l:key)
+              if l:match >= 0
+                  if l:count == 0
+                      let @+ = l:line
+                  else
+                      let @+ = @+ . "\n" . l:line
+                  endif
+                  let l:count += 1
+              endif
+          endfor
+        endwhile
+
+        if l:count > 0
+            echo l:count . " lines copied"
+        else
+            echo "no match found"
         endif
     endfunction
     "}}}"
@@ -424,6 +471,9 @@
     match ErrorMsg /\s\+$/
 
     set listchars=tab:,.,trail:.,extends:#,nbsp:. " Highlight problematic whitespace
+
+    " Save uppercase globals
+    set viminfo+=!
 "}}}
 
 " spf-13 Configurations {{{
@@ -619,7 +669,7 @@
     cmap w!! w !sudo tee > /dev/null %
     "}}}
 
-    " clear quick list
+    " clear quickfix list
     nnoremap qc :call setqflist([])<CR>:cclose<CR>
 "}}}
 
@@ -655,6 +705,12 @@
 
     " BufferLine {{{
         let g:bufferline_rotate = 2
+    "}}}
+
+    " Mark {{{
+        let g:mwAutoLoadMarks = 1
+        let g:mwAutoSaveMarks = 1
+        let g:mwDefaultHighlightingPalette = 'extended'
     "}}}
 "}}}
 
@@ -770,6 +826,10 @@
     command! -nargs=0 -complete=command -range CommentEndif call <SID>CommentEndif(<count>,<line1>,<line2>)
     command! -nargs=0 -complete=command AddFuncLog call <SID>AddFunctionLog("")
     command! -nargs=+ -complete=command AddFuncLogOverride call <SID>AddFunctionLog(<f-args>)
+
+    " Copy lines with highlighted words
+    command! -nargs=0 -complete=command CopyLinesWithHlWords call <SID>CopyLinesWithHighlightWords(-1)
+    command! -nargs=1 -complete=command CopyLinesWithHlWordsWithIdx call <SID>CopyLinesWithHighlightWords(<f-args>)
 "}}}
 
 " Auto cmds{{{
