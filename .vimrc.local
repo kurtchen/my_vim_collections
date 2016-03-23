@@ -336,7 +336,7 @@
     "}}}
 
     " Add comments for #endif {{{
-    function! s:AddFunctionLog(tag_override)
+    function! s:AddFunctionLog(tag_override, params)
         let l:tag_name = ""
         if (strlen(a:tag_override) > 0)
             let l:tag_name = a:tag_override
@@ -345,8 +345,16 @@
         endif
 
         if strlen(l:tag_name) > 0
-            let l:enter_log = "LOGV(\"" . l:tag_name . " ++\");"
-            let l:exit_log = "LOGV(\"" . l:tag_name . " --\");"
+            let l:enter_log = "LOGV(\"" . l:tag_name . " ++\""
+            if (strlen(a:params) > 0)
+                let l:enter_log = l:enter_log . ", " . a:params
+            endif
+            let l:enter_log = l:enter_log . ");"
+            let l:exit_log = "LOGV(\"" . l:tag_name . " --\""
+            if (strlen(a:params) > 0)
+                let l:exit_log = l:exit_log . ", " . a:params
+            endif
+            let l:exit_log = l:exit_log . ");"
             let l:logs = [l:enter_log, l:exit_log]
             call append(line("."), l:logs)
 
@@ -607,6 +615,7 @@
     "nnoremap <silent> sg     :FufTaggedFile<CR>
     "nnoremap <silent> sG     :FufTaggedFile!<CR>
     nnoremap <silent> so     :FufJumpList<CR>
+    nnoremap <silent> sO     :FufJumpListCursorWord<CR>
     nnoremap <silent> sp     :FufChangeList<CR>
     nnoremap <silent> sq     :FufQuickfix<CR>
     nnoremap <silent> sy     :FufLine<CR>
@@ -618,7 +627,7 @@
     "nnoremap <Leader>// :MarkSearchAnyNext<CR>
     "}}}
     "For LookupFile plugin{{{
-    nnoremap <silent> <F4> :LookupFile<CR>
+    nnoremap <silent> <F6> :LookupFile<CR>
     "}}}
     "For EasyMotion{{{
     nnoremap <silent> ff :call EasyMotion#F(0,0)<CR>
@@ -638,6 +647,10 @@
     "nnoremap <silent> nn :call EasyMotion#Search(0,0)<CR>
     "nnoremap <silent> NN :call EasyMotion#Search(0,1)<CR>
     "}}}
+
+    " For choosewin {{{
+        nmap  <Leader>-  <Plug>(choosewin)
+    " }}}
 
     " Search for selected text, forwards or backwards {{{
     vnoremap <silent> * :<C-U>
@@ -712,6 +725,10 @@
         let g:mwAutoSaveMarks = 1
         let g:mwDefaultHighlightingPalette = 'extended'
     "}}}
+
+    " choosewin {{{
+        let g:choosewin_overlay_enable = 1
+    " }}}
 "}}}
 
 " Abbreviations {{{
@@ -824,8 +841,9 @@
 
     " Add comment for #endif #else
     command! -nargs=0 -complete=command -range CommentEndif call <SID>CommentEndif(<count>,<line1>,<line2>)
-    command! -nargs=0 -complete=command AddFuncLog call <SID>AddFunctionLog("")
-    command! -nargs=+ -complete=command AddFuncLogOverride call <SID>AddFunctionLog(<f-args>)
+    command! -nargs=0 -complete=command AddFuncLog call <SID>AddFunctionLog("%s", "__FUNCTION__")
+    command! -nargs=0 -complete=command AddFuncLogTag call <SID>AddFunctionLog("", "")
+    command! -nargs=+ -complete=command AddFuncLogOverride call <SID>AddFunctionLog(<f-args>, "")
 
     " Copy lines with highlighted words
     command! -nargs=0 -complete=command CopyLinesWithHlWords call <SID>CopyLinesWithHighlightWords(-1)

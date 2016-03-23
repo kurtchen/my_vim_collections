@@ -10,4 +10,6 @@
     Bundle 'kurtchen/vim-git-log'
     Bundle 'kurtchen/grep.vim'
     Bundle 'guns/xterm-color-table.vim'
+    Bundle 't9md/vim-choosewin'
+    "Bundle 'vim-scripts/SyntaxRange'
 " }}}

@@ -39,6 +39,7 @@ endfunction
 "
 function fuf#jumplist#onInit()
   call fuf#defineLaunchCommand('FufJumpList', s:MODE_NAME, '""', [])
+  call fuf#defineLaunchCommand('FufJumpListCursorWord', s:MODE_NAME, 'expand(''<cword>'')', [])
 endfunction
 
 " }}}1
