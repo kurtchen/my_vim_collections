@@ -1,4 +1,5 @@
 function s:initialize()
+    call s:defineVariableDefault('g:cnotes_fileFormat'       , "xml")
     call s:defineVariableDefault('g:cnotes_notesRootDir'     , "")
     call s:defineVariableDefault('g:cnotes_codeRootDir'      , "")
 
