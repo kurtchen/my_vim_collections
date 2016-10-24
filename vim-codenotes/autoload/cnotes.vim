@@ -216,7 +216,7 @@ function cnotes#createNote()
     else
         let l:base_dir = fnamemodify(l:note_path, ':p:h')
         if !isdirectory(l:base_dir)
-            mkdir(l:base_dir, 'p')
+            call mkdir(l:base_dir, 'p')
         endif
     endif
 
